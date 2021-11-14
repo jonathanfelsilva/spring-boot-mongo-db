@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import principal.domain.Post;
+import principal.dto.AuthorDTO;
+import principal.dto.CommentDTO;
 import principal.repository.PostRepository;
 import principal.services.exception.ObjectNotFoundException;
 
@@ -16,6 +18,9 @@ public class PostService {
 	
 	@Autowired
 	private PostRepository repository;
+	
+	@Autowired
+	private UserService userService;
 	
 	public List<Post> findAll(){
 		return repository.findAll();
@@ -42,6 +47,16 @@ public class PostService {
 	public List<Post> fullSearch (String text, Date minDate, Date maxDate){
 		maxDate = new Date(maxDate.getTime() + 24 * 60 * 60 * 1000);
 		return repository.fullSearch(text, minDate, maxDate);
+	}
+	
+	public Post insertComment(String idPost, String idAuthor, CommentDTO comment) {
+		Post post = findById(idPost);
+		AuthorDTO author = new AuthorDTO(userService.findById(idAuthor));
+		
+		comment.setAuthor(author);
+		
+		post.getComments().add(comment);
+		return repository.save(post);
 	}
 	
 }

@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import principal.domain.Post;
+import principal.dto.CommentDTO;
 import principal.resources.util.URL;
 import principal.services.PostService;
 
@@ -53,7 +56,14 @@ public class PostResource {
 		return ResponseEntity.ok().body(list);	
 	}
 	
-	
+	@PostMapping(value = "createComment")
+	public ResponseEntity<Void> insertComment(
+			@RequestParam(value="idPost", defaultValue="") String idPost,
+			@RequestParam(value="idAuthor", defaultValue="") String idAuthor,
+			@RequestBody CommentDTO comment){
+		service.insertComment(idPost, idAuthor, comment);
+		return ResponseEntity.noContent().build();
+	}
 	
 	
 }
