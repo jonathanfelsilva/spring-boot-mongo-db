@@ -40,6 +40,18 @@ public class PostService {
 		repository.deleteById(id);
 	}
 	
+	public Post updatePost(Post obj) {
+		Post newObj = findById(obj.getId());
+		updateData(newObj, obj);
+		return repository.save(newObj);
+	}
+	
+	public void updateData(Post newObj, Post obj) {
+		newObj.setBody(obj.getBody());
+		newObj.setDate(obj.getDate());
+		newObj.setTitle(obj.getTitle());
+	}
+	
 	public List<Post> findByTitle (String text){
 		return repository.findByTitleComArrobaQuery(text);
 	}
