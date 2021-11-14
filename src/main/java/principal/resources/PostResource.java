@@ -61,7 +61,6 @@ public class PostResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	
 	@GetMapping(value = "/titlesearch")
 	public ResponseEntity<List<Post>> findByTitle(@RequestParam(value="text", defaultValue="") String text){
 		text = URL.decodeParam(text);
