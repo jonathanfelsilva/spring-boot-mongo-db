@@ -34,4 +34,8 @@ public class PostService {
 		repository.deleteById(id);
 	}
 	
+	public List<Post> findByTitle (String text){
+		return repository.findByTitleContainingIgnoreCase(text);
+	}
+	
 }
